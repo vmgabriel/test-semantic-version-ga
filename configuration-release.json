@@ -47,6 +47,6 @@
       "method": "semver"
     },
     "base_branches": [
-      "main"
+      "staging"
     ]
 }
