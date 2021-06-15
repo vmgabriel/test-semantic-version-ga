@@ -12,13 +12,13 @@ jobs:
         id: build_changelog
         uses: mikepenz/release-changelog-builder-action@v1.8.2
         with:
+          fetch-depth: 5
           configuration: "configuration-release.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Release
         uses: actions/create-release@v1
         with:
-          fetch-depth: 3
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
           body: ${{steps.github_release.outputs.changelog}}
@@ -27,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 5
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
