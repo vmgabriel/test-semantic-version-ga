@@ -24,11 +24,22 @@ jobs:
         env:
           WITH_V: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install dependencies
+        run: npm ci
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
       - name: Create Release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{steps.github_release.outputs.new_tag}}
-          release_name: ${{steps.github_release.outputs.new_tag}}
+          tag_name: ${{steps.github_release.outputs.tag}}
+          release_name: ${{steps.github_release.outputs.tag}}
           body: ${{steps.github_release.outputs.changelog}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
