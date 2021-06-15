@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Build Changelog
         id: build_changelog
-        uses: mikepenz/release-changelog-builder-actionv@1.8.2
+        uses: mikepenz/release-changelog-builder-action@v1.8.2
         with:
           configuration: "releases/configuration-release.json"
         env:
