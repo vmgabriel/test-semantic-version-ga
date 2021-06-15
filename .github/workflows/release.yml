@@ -8,11 +8,14 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
       - name: Build Changelog
         id: build_changelog
         uses: mikepenz/release-changelog-builder-action@v1.8.2
         with:
-          fetch-depth: 5
           configuration: "configuration-release.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
