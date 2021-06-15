@@ -8,5 +8,5 @@
     }]
   ],
   "preset": "angular",
-  "branches": ["master"]
+  "branches": ["main"]
 }
