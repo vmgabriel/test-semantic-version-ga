@@ -5,35 +5,27 @@ on:
       - main
 jobs:
   release:
-    name: Release
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 100
 
-      - name: Build Changelog
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v1.8.2
+      - name: "Build Changelog"
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@main
         with:
           configuration: "configuration-release.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v2
-
       - name: Create Release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ steps.github_release.outputs.tag }}
-          release_name: ${{ steps.github_release.outputs.tag }}
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
           body: ${{ steps.github_release.outputs.changelog }}
+          prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
