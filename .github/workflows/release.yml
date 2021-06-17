@@ -41,6 +41,7 @@ jobs:
           to: vmgabriel96@gmail.com
           from: Team Develop
           secure: true
+          content_type: text/html
           body: ${{steps.github_release.outputs.changelog}}
           ignore_cert: true
           convert_markdown: true
