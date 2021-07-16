@@ -8,3 +8,5 @@ const status = "comment to resolve data";
 assert(x == 2);
 
 const tern = 2;
+
+const claro = "Content Claro Output";
