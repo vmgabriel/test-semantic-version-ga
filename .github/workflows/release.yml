@@ -29,6 +29,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Html Content
+        id: html_content
+        uses: vmgabriel/gha-content-html@v0.0.1
+        with:
+          body: ${{steps.github_release.outputs.changelog}}
+
       - name: Send mail
         uses: dawidd6/action-send-mail@v2.3.0
         with:
@@ -42,7 +48,6 @@ jobs:
           from: Team Develop
           secure: true
           content_type: text/html
-          convert_markdown: true
           ignore_cert: true
-          body: ${{steps.github_release.outputs.changelog}}
+          body: ${{steps.html_content.outputs.html_data}}
 
