@@ -6,3 +6,4 @@ const other_repr = "repr - repr";
 console.log('other repr - ', other_repr);
 
 const impotencia = "impotencia";
+const thisApp = "Sketch";
