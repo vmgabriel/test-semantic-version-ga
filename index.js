@@ -10,7 +10,12 @@ const status = "comment to resolve data";
 
 assert(x == 2);
 
-const tern = 2;
+let tern = 2;
 tern++;
+
+
+const struct =`
+resolve
+`;
 
 const claro = "Content Claro Output";
