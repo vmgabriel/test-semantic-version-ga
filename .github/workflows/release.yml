@@ -1,41 +1,54 @@
 name: Release
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
 jobs:
   release:
-    name: Release
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
-      - name: Build Changelog
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v1.8.2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: "Build Changelog"
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@main
         with:
           configuration: "configuration-release.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
         uses: actions/create-release@v1
         with:
-          fetch-depth: 3
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
+          body: ${{ steps.github_release.outputs.changelog }}
+          prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Html Content
+        id: html_content
+        uses: vmgabriel/gha-content-html@0.1.0
+        with:
+          template: ".github/workflows/template.html"
           body: ${{steps.github_release.outputs.changelog}}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Checkout
-        uses: actions/checkout@v2
+
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v2.3.0
         with:
-          fetch-depth: 0
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Install dependencies
-        run: npm ci
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+          # Required mail server address:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: New Features Into Version ${{github.ref}}
+          to: vmgabriel96@gmail.com
+          from: Team Develop
+          secure: true
+          content_type: text/html
+          ignore_cert: true
+          body: ${{steps.html_content.outputs.html_data}}
+
