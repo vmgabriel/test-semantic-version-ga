@@ -11,5 +11,6 @@ const status = "comment to resolve data";
 assert(x == 2);
 
 const tern = 2;
+tern++;
 
 const claro = "Content Claro Output";
