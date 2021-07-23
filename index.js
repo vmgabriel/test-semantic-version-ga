@@ -18,4 +18,6 @@ const struct =`
 resolve
 `;
 
+let animo = [1,2,3,4];
+
 const claro = "Content Claro Output";
