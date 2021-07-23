@@ -1,5 +1,6 @@
 let x = 3;
 console.log(x);
+console.log("x" + "y");
 
 
 const control = "Module Control Access";
