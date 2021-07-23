@@ -31,8 +31,9 @@ jobs:
 
       - name: Html Content
         id: html_content
-        uses: vmgabriel/gha-content-html@0.0.4
+        uses: vmgabriel/gha-content-html@0.0.6
         with:
+          template: "template.html"
           body: ${{steps.github_release.outputs.changelog}}
 
       - name: Send mail
