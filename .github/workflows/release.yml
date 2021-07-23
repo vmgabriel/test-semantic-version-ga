@@ -33,7 +33,7 @@ jobs:
         id: html_content
         uses: vmgabriel/gha-content-html@0.0.9
         with:
-          template: "template.html"
+          template: ".github/workflows/template.html"
           body: ${{steps.github_release.outputs.changelog}}
 
       - name: Send mail
