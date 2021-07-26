@@ -31,7 +31,7 @@ jobs:
 
       - name: Html Content
         id: html_content
-        uses: vmgabriel/gha-content-html@0.1.5
+        uses: vmgabriel/gha-content-html@0.1.6
         with:
           template: ".github/workflows/template.html"
           body: ${{steps.github_release.outputs.changelog}}
