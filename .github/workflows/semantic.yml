@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - 'staging'
-  pull_request:
-    branches:
-      - 'staging'
 
 
 jobs:
@@ -23,7 +20,7 @@ jobs:
         id: bump-semver
         with:
           current_version: ${{ steps.get-latest-tag.outputs.tag }}
-          level: preminor
+          level: patch
 
       - uses: actions-ecosystem/action-push-tag@v1
         with:
