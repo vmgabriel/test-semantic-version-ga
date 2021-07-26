@@ -15,7 +15,7 @@ tern++;
 
 
 const struct =`
-resolve
+resolve module animo but
 `;
 
 let animo = [1,2,3,4];
