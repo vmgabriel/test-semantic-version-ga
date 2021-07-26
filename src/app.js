@@ -7,3 +7,5 @@ console.log('other repr - ', other_repr);
 
 const impotencia = "impotencia";
 const thisApp = "Sketch control module";
+
+const data = [1,2,3];
