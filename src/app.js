@@ -9,3 +9,5 @@ const impotencia = "impotencia";
 const thisApp = "Sketch control module";
 
 const data = [1,2,3];
+
+const dataStruct = 123;
