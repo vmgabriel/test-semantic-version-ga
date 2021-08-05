@@ -15,13 +15,6 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v2
 
-
-      - name: "Get Latest Tag"
-        uses: actions-ecosystem/action-get-latest-tag@v1
-        id: get-latest-tag
-        with:
-          initial_version: "v1.1.0"
-
       # Load Private Repository
       - name: "Checkout Private"
         uses: actions/checkout@v2
@@ -37,15 +30,64 @@ jobs:
         with:
           message_commit: "${{ github.event.head_commit.message }}"
 
+      - name: "Get Latest Tag"
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+        with:
+          initial_version: "v1.1.0"
+
       - uses: actions-ecosystem/action-bump-semver@v1
-        if: ${{ steps.level_status.outputs.level != '' }}
         id: bump-semver
         with:
           current_version: ${{ steps.get-latest-tag.outputs.tag }}
           level: "${{ steps.level_status.outputs.level }}"
 
       - uses: actions-ecosystem/action-push-tag@v1
-        if: ${{ steps.level_status.outputs.level == 'minor' }}
         with:
           tag: ${{ steps.bump-semver.outputs.new_version }}
           message: '${{ steps.bump-semver.outputs.new_version }}: Minor Version'
+
+      - name: "Build Changelog"
+        if: ${{ steps.level_status.outputs.level != 'patch' }}
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@main
+        with:
+          configuration: "configuration-release.json"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Html Content
+        if: ${{ steps.level_status.outputs.level != 'patch' }}
+        id: html_content
+        uses: vmgabriel/gha-content-html@0.1.6
+        with:
+          template: ".github/workflows/template.html"
+          body: ${{steps.github_release.outputs.changelog}}
+
+      - name: Create Release
+        if: ${{ steps.level_status.outputs.level != 'patch' }}
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body: ${{ steps.github_release.outputs.changelog }}
+          prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send mail
+        if: ${{ steps.level_status.outputs.level != 'patch' }}
+        uses: dawidd6/action-send-mail@v2.3.0
+        with:
+          # Required mail server address:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: New Features Into Project ${{repository}} -  ${{github.ref}}
+          to: vmgabriel96@gmail.com
+          from: Team Develop
+          secure: true
+          content_type: text/html
+          ignore_cert: true
+          body: ${{steps.html_content.outputs.html_data}}
