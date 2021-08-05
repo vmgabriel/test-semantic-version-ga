@@ -15,14 +15,23 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v2
 
+
       - name: "Get Latest Tag"
         uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
         with:
           initial_version: "v1.1.0"
 
-      - name: "Generate Level"
-        uses: FithubLatam/ga-level-status@v1.0.0
+      # Load Private
+      - name: "Checkout Private"
+        uses: actions/checkout@v2
+        with:
+          repository: FithubLatam/ga-level-status
+          ref: "main"
+          token: ${{ secrets.GITHUB_PAT }}
+          persist-credentials: true
+      - name: "Run My Action"
+        uses: ./.github/actions/ga-level-status
         id: level_status
         with:
           message_commit: "${{ github.event.head_commit.message }}"
