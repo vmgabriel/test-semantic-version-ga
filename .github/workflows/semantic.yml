@@ -30,9 +30,9 @@ jobs:
           ref: "main"
           ssh-key: ${{ secrets.SSH_KEY }}
           persist-credentials: true
-          path: ./
+          path: .github/actions/ga-level
       - name: "Run My Action"
-        uses: ./
+        uses: ./.github/actions/ga-level
         id: level_status
         with:
           message_commit: "${{ github.event.head_commit.message }}"
