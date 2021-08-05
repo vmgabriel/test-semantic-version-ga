@@ -68,8 +68,8 @@ jobs:
         if: ${{ steps.level_status.outputs.level != 'patch' }}
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: ${{ steps.bump-semver.outputs.new_version }}
+          release_name: ${{ steps.bump-semver.outputs.new_version }}
           body: ${{ steps.github_release.outputs.changelog }}
           prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
         env:
