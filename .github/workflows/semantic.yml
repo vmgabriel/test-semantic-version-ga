@@ -30,7 +30,7 @@ jobs:
           ref: "main"
           ssh-key: ${{ secrets.SSH_KEY }}
           persist-credentials: true
-          path: .github/actions
+          path: ./
       - name: "Run My Action"
         uses: ./
         id: level_status
