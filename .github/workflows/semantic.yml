@@ -32,7 +32,7 @@ jobs:
           persist-credentials: true
           path: .github/actions
       - name: "Run My Action"
-        uses: ./.github/actions/ga-level-status
+        uses: ./
         id: level_status
         with:
           message_commit: "${{ github.event.head_commit.message }}"
