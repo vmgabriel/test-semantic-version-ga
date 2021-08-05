@@ -12,13 +12,30 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: "Checkout"
+        uses: actions/checkout@v2
 
-      - uses: actions-ecosystem/action-get-latest-tag@v1
+      - name: "Get Latest Tag"
+        uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
         with:
-          initial_version: "v1.0.0"
+          initial_version: "v1.1.0"
 
-      - name: Get Commit Message
-        id: branch
-        run: echo "${{ github.event.head_commit.message }}"
+      - name: "Generate Level"
+        uses: FithubLatam/ga-level-status@v1.0.0
+        id: level_status
+        with:
+          message_commit: "${{ github.event.head_commit.message }}"
+
+      - uses: actions-ecosystem/action-bump-semver@v1
+        if: steps.level_status.outputs.level
+        id: bump-semver
+        with:
+          current_version: ${{ steps.get-latest-tag.outputs.tag }}
+          level: "${{ steps.level_status.outputs.level }}"
+
+      - uses: actions-ecosystem/action-push-tag@v1
+        if: steps.level_status.outputs.level == "minor"
+        with:
+          tag: ${{ steps.bump-semver.outputs.new_version }}
+          message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'

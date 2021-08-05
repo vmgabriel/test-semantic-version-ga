@@ -12,3 +12,4 @@ const data = [1,2,3];
 data[0] = 4;
 
 const alternative = [1,2,3];
+-
