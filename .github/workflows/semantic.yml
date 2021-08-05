@@ -22,7 +22,7 @@ jobs:
         with:
           initial_version: "v1.1.0"
 
-      # Load Private
+      # Load Private Repository
       - name: "Checkout Private"
         uses: actions/checkout@v2
         with:
@@ -31,7 +31,7 @@ jobs:
           ssh-key: ${{ secrets.SSH_KEY }}
           persist-credentials: true
           path: .github/actions/ga-level
-      - name: "Run My Action"
+      - name: "Run Level Status"
         uses: ./.github/actions/ga-level
         id: level_status
         with:

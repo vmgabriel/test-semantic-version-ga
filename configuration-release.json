@@ -1,23 +1,23 @@
 {
-    "categories": [
-      {
-        "title": "## 🚀 Features",
-        "labels": ["feature"]
-      },
-      {
-        "title": "## 🐛 Fixes",
-        "labels": ["fix"]
-      },
-      {
-        "title": "## 🧪 Tests",
-        "labels": ["test"]
-      }
-    ],
-    "ignore_labels": [
-      "ignore"
-    ],
-    "sort": "ASC",
-    "template": "${{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n${{UNCATEGORIZED}}\n</details>",
-    "pr_template": "- ${{TITLE}}\n   - PR: #${{NUMBER}}",
-    "empty_template": "- no changes"
+  "categories": [
+    {
+      "title": "## 🚀 Features",
+      "labels": ["feature"]
+    },
+    {
+      "title": "## 🐛 Fixes",
+      "labels": ["fix"]
+    },
+    {
+      "title": "## 🧪 Tests",
+      "labels": ["test"]
+    }
+  ],
+  "ignore_labels": [
+    "ignore"
+  ],
+  "sort": "ASC",
+  "template": "changelog->${{CHANGELOG}};uncategorized->${{UNCATEGORIZED}};ignored->${{IGNORED}};repo->${{REPO}};from_tag->${{FROM_TAG}};to_tag->${{TO_TAG}};categorized_count->${{CATEGORIZED_COUNT}};uncategorized_count->${{UNCATEGORIZED_COUNT}};ignored_count->${{IGNORED_COUNT}}",
+  "pr_template": "title:${{TITLE}}-number:{{NUMBER}}-url:${{URL}}-merged_at:${{MERGED_AT}}-author:${{AUTHOR}}-body:${{body}}",
+  "empty_template": "- no changes"
 }
