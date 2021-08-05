@@ -38,7 +38,7 @@ jobs:
           message_commit: "${{ github.event.head_commit.message }}"
 
       - uses: actions-ecosystem/action-bump-semver@v1
-        if: ${{ steps.level_status.outputs.level == "" }}
+        if: ${{ steps.level_status.outputs.level == '' }}
         id: bump-semver
         with:
           current_version: ${{ steps.get-latest-tag.outputs.tag }}
