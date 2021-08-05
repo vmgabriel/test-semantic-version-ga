@@ -28,7 +28,7 @@ jobs:
         with:
           repository: FithubLatam/ga-level-status
           ref: "main"
-          token: ${{ secrets.GITHUB_PAT }}
+          token: ${{ secrets.PAT_TOKEN }}
           persist-credentials: true
       - name: "Run My Action"
         uses: ./.github/actions/ga-level-status
