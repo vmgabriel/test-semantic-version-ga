@@ -35,7 +35,7 @@ jobs:
           level: "${{ steps.level_status.outputs.level }}"
 
       - uses: actions-ecosystem/action-push-tag@v1
-        if: steps.level_status.outputs.level == "minor"
+        if: ${{ steps.level_status.outputs.level == "minor" }}
         with:
           tag: ${{ steps.bump-semver.outputs.new_version }}
-          message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
+          message: '${{ steps.bump-semver.outputs.new_version }}: Minor Version'
