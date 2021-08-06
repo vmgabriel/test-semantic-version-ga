@@ -13,4 +13,4 @@ data[0] = 4;
 
 const alternative = [1,2,3,4,5];
 let train = alternative.map((data) => data ** 4);
-let change ="this is the change";
+let change ="this is the changes";
