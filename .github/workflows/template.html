@@ -1,7 +1,244 @@
-<head>
-  <title>Mail</title>
-</head>
+<!doctype html>
 
-<body>
-  {{ content|markdown }}
-</body>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>New Feature</title>
+    <meta name="description" content="New Feature {{ json_content.repo }}">
+    <meta name="author" content="Fithub">
+
+    <meta property="og:title" content="New Feature {{ json_content.repo }}">
+    <meta property="og:type" content="content">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style type="text/css">
+     @import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap);
+    </style>
+    <style>
+     body {
+       padding: 0;
+       margin: 0;
+       font-family: Montserrat,Helvetica,sans-serif;
+     }
+
+     img {
+       max-width: -moz-available;
+       max-width: -webkit-fill-available;
+     }
+
+     footer {
+       background: #ff5100 url("img/footer.png") no-repeat center center / cover;
+       background-position: center center;
+       background-repeat: no-repeat;
+       padding: 0px;
+       vertical-align: top;
+       padding-top: 3em;
+       padding-bottom: 1em;
+
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+     }
+
+     p.text-footer{
+       padding: 0;
+       margin: 0;
+       font-family:sans-serif;
+       font-size:16px;
+       font-weight:500;
+       line-height:1;
+       text-align:center;
+       color:white;
+     }
+
+     .img-footer{
+       border:0;
+       display:block;
+       outline:none;
+       text-decoration:none;
+       height:auto;
+       width:100%;
+       font-size:13px;
+       max-width: 100px;
+       margin-top: 30px;
+     }
+
+     .block {
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+
+       padding-top: 3em;
+       padding-bottom: 3em;
+
+       border-bottom: 1px solid #d7d3d3;
+     }
+
+     .block:nth-child(2) {
+       background-color: #eee;
+     }
+
+     .block-fluid {
+       margin-left: 20px;
+       margin-right: 20px;
+       align-items: inherit;
+     }
+
+     .row{
+       display: flex;
+       flex-direction: row;
+
+       margin-top: 2em;
+     }
+
+     .main-title {
+       font-family:sans-serif;
+       color: #ff5100;
+       padding: 0;
+       margin: 0;
+     }
+
+     .name-repository {
+       padding: 0;
+       margin: 0;
+       font-family: Montserrat,Helvetica,sans-serif;
+       font-size: 44px;
+       font-weight: 600;
+       line-height: 1;
+       text-align: center;
+       color: #0e1011;
+     }
+
+     .title {
+       font-family: Montserrat,Helvetica,sans-serif;
+       font-size: 24px;
+       font-weight: 600;
+       line-height: 1;
+       text-align: center;
+       color: #4b636e;
+     }
+
+     .content-changelog {
+       padding: 6px;
+       margin-bottom: 2em;
+     }
+
+     .content-changelog a{
+       text-decoration: none;
+       color: #4b636e;
+       padding: 0;
+       margin: 0;
+     }
+     .content-changelog h1 {
+       font-size: 24px;
+       padding: 0;
+       margin: 0;
+     }
+
+     .content-changelog h6 {
+       padding: 0;
+       margin: 0;
+       margin-top: 0.5em;
+       font-size: 12px;
+     }
+
+     .content-changelog p {
+       padding: 0;
+       margin: 0;
+     }
+
+     .content-changelog .content-body {
+       padding-left: 20px;
+       padding-right: 20px;
+     }
+
+     .old-version {
+       color: red;
+     }
+
+     .new-version {
+       color: green;
+     }
+
+     .warning {
+       color: #bed259;
+     }
+
+    </style>
+  </head>
+
+  <body>
+
+    <!-- header -->
+    <img alt="header fithub logo" src="img/header.png" />
+
+    <!-- main -->
+    <div class="block">
+      <h1 class="main-title">Nueva Actualizacion</h1>
+      <h2 class="name-repository">{{ json_content.repo|title }}</h2>
+      <div class="row">
+        <h3 class="name-repository old-version">{{ json_content.fromtag }}</h3>
+        <i class="material-icons" style="font-size:48px;">arrow_right_alt</i>
+        <h3 class="name-repository new-version">{{ json_content.totag }}</h3>
+      </div>
+    </div>
+
+    <div class="block block-fluid">
+      {% if json_content.changelog.Features %}
+        <h3 class="title new-version"><i class="material-icons" style="font-size:24px;">published_with_changes</i> Actualizaciones</h3>
+        {% for changelog in json_content.changelog.Features %}
+          <div class="content-changelog">
+            <a href="{{ changelog.url }}"><h1>{{ changelog.title|title }}{% if changelog.title %} - {% endif %}#{{ changelog.number }}</h1></a>
+            <p>Autor: {{ changelog.author }}</p>
+            {% if changelog.body %}
+              <h6>Contenido:</h6>
+            <p class="content-body">{{ changelog.body }}</p>
+          {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% if json_content.changelog.Fixes %}
+        <h3 class="title old-version"><i class="material-icons" style="font-size:24px;">gpp_maybe</i> Errores</h3>
+        {% for changelog in json_content.changelog.Fixes %}
+          <div class="content-changelog">
+            <a href="{{ changelog.url }}"><h1>{{ changelog.title|title }}{% if changelog.title %} - {% endif %}#{{ changelog.number }}</h1></a>
+            <p>Autor: {{ changelog.author }}</p>
+            {% if changelog.body %}
+              <h6>Contenido:</h6>
+            <p class="content-body">{{ changelog.body }}</p>
+          {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% if json_content.changelog.Tests %}
+        <h3 class="title warning"><i class="material-icons" style="font-size:24px;">precision_manufacturing</i> Tests</h3>
+        {% for changelog in json_content.changelog.Tests %}
+          <div class="content-changelog">
+            <a href="{{ changelog.url }}"><h1>{{ changelog.title|title }}{% if changelog.title %} - {% endif %}#{{ changelog.number }}</h1></a>
+            <p>Autor: {{ changelog.author }}</p>
+            {% if changelog.body %}
+              <h6>Contenido:</h6>
+            <p class="content-body">{{ changelog.body }}</p>
+          {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- footer -->
+    <footer>
+      <p class="text-footer">
+        © 2021 FitHub. Todos los derechos reservados.
+      </p>
+      <p class="text-footer">
+        Carrera 51 # 82 - 223 Barranquilla, Colombia.
+      </p>
+      <img class="img-footer" alt="logo footer fithub" src="img/logo_mobile_white.png"/>
+    </footer>
+  </body>
+</html>
