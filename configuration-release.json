@@ -1,15 +1,15 @@
 {
   "categories": [
     {
-      "title": "Features°",
+      "title": "Features(°)",
       "labels": ["feature"]
     },
     {
-      "title": "Fixes°",
+      "title": "Fixes(°)",
       "labels": ["fix"]
     },
     {
-      "title": "Tests°",
+      "title": "Tests(°)",
       "labels": ["test"]
     }
   ],
@@ -17,7 +17,7 @@
     "ignore"
   ],
   "sort": "ASC",
-  "template": "changelog->${{CHANGELOG}};uncategorized->${{UNCATEGORIZED}};ignored->${{IGNORED}};repo->${{REPO}};from_tag->${{FROM_TAG}};to_tag->${{TO_TAG}};categorized_count->${{CATEGORIZED_COUNT}};uncategorized_count->${{UNCATEGORIZED_COUNT}};ignored_count->${{IGNORED_COUNT}}",
-  "pr_template": "title|${{TITLE}}~number|${{NUMBER}}~url|${{URL}}~merged_at|${{MERGED_AT}}~author|${{AUTHOR}}~body|${{BODY}}^",
+  "template": "changelog(->)${{CHANGELOG}}(;)uncategorized(->)${{UNCATEGORIZED}}(;)ignored(->)${{IGNORED}}(;)repo(->)${{REPO}}(;)from_tag(->)${{FROM_TAG}}(;)to_tag(->)${{TO_TAG}}(;)categorized_count(->)${{CATEGORIZED_COUNT}}(;)uncategorized_count(->)${{UNCATEGORIZED_COUNT}}(;)ignored_count(->)${{IGNORED_COUNT}}",
+  "pr_template": "title(|)${{TITLE}}(~)number(|)${{NUMBER}}(~)url(|)${{URL}}(~)merged_at(|)${{MERGED_AT}}(~)author(|)${{AUTHOR}}(~)body(|)${{BODY}}(^)",
   "empty_template": "content->no changes"
 }
