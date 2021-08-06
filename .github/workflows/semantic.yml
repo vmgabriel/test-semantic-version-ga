@@ -59,7 +59,7 @@ jobs:
       - name: Html Content
         if: ${{ steps.level_status.outputs.level != 'patch' }}
         id: html_content
-        uses: vmgabriel/gha-content-html@0.1.6
+        uses: vmgabriel/gha-content-html@0.1.8
         with:
           template: ".github/workflows/template.html"
           body: ${{steps.github_release.outputs.changelog}}
