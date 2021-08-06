@@ -70,7 +70,7 @@ jobs:
         with:
           tag_name: ${{ steps.bump-semver.outputs.new_version }}
           release_name: ${{ steps.bump-semver.outputs.new_version }}
-          body: ${{ steps.github_release.outputs.changelog }}
+          body: ${{steps.html_content.outputs.html_data}}
           prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
