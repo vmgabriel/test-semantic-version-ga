@@ -1,15 +1,15 @@
 {
   "categories": [
     {
-      "title": "Features",
+      "title": "### Features",
       "labels": ["feature"]
     },
     {
-      "title": "Bugs",
+      "title": "### Bugs",
       "labels": ["bug"]
     },
     {
-      "title": "Refactors",
+      "title": "### Refactors",
       "labels": ["refactor"]
     }
   ],
