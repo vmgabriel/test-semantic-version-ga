@@ -1,23 +1,29 @@
 {
   "categories": [
     {
-      "title": "Features(°)",
+      "title": "Features",
       "labels": ["feature"]
     },
     {
-      "title": "Fixes(°)",
-      "labels": ["fix"]
+      "title": "Bugs",
+      "labels": ["bug"]
     },
     {
-      "title": "Tests(°)",
-      "labels": ["test"]
+      "title": "Refactors",
+      "labels": ["refactor"]
     }
   ],
   "ignore_labels": [
     "ignore"
   ],
   "sort": "ASC",
-  "template": "changelog(->)${{CHANGELOG}}(;)uncategorized(->)${{UNCATEGORIZED}}(;)ignored(->)${{IGNORED}}(;)repo(->)${{REPO}}(;)from_tag(->)${{FROM_TAG}}(;)to_tag(->)${{TO_TAG}}(;)categorized_count(->)${{CATEGORIZED_COUNT}}(;)uncategorized_count(->)${{UNCATEGORIZED_COUNT}}(;)ignored_count(->)${{IGNORED_COUNT}}",
-  "pr_template": "title(|)${{TITLE}}(~)number(|)${{NUMBER}}(~)url(|)${{URL}}(~)merged_at(|)${{MERGED_AT}}(~)author(|)${{AUTHOR}}(~)body(|)${{BODY}}(^)",
-  "empty_template": "content->no changes"
+  "template": "![Header](https://firebasestorage.googleapis.com/v0/b/tara-cloud.appspot.com/o/orgs%2Ffithub%2Ftasks%2F504%2FNotas%20de%20Lanzamiento-a631125b-d4b0-47d2-aa96-831b3c8b2d0e.png?alt=media&token=1199f2dd-a464-487f-a66f-1bebc130c583 'Header')\n\n${{REPO}}\n\nActualizacion: \n\n  ${{FROM_TAG}} -> ${{TO_TAG}}\n----\n## Changelog\n${{CHANGELOG}}\n\n----\n## Uncategorized\n${{UNCATEGORIZED}}",
+  "pr_template": "### Change: [${{TITLE}}](${{URL}} 'url of pr') - ${{NUMBER}}\n#### Author: ${{AUTHOR}}\n${{BODY}}\n",
+  "empty_template": "content->no changes",
+  "transformers": [
+    {
+      "pattern": "## Release Note Description:\n(.*)",
+      "target": "$1"
+    }
+  ]
 }

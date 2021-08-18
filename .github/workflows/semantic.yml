@@ -6,13 +6,15 @@ on:
 
 
 jobs:
-  release:
+  check_pr:
+    name: "Check PR"
     runs-on: ubuntu-latest
+    outputs:
+      level: ${{ steps.level_status.outputs.level }}
     steps:
       - name: "Checkout"
         uses: actions/checkout@v2
 
-      # Load Private Repository
       - name: "Checkout Private"
         uses: actions/checkout@v2
         with:
@@ -26,65 +28,64 @@ jobs:
         id: level_status
         with:
           message_commit: "${{ github.event.head_commit.message }}"
+          default_level: ""
 
+  release:
+    name: "Release"
+    if: needs.check_pr.level_status.outputs.level != ''
+    needs: [check_pr]
+    runs-on: ubuntu-latest
+    steps:
       - name: "Get Latest Tag"
         uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
         with:
           initial_version: "v1.1.0"
 
-      - uses: actions-ecosystem/action-bump-semver@v1
+      - name: "Get New Tag"
+        uses: actions-ecosystem/action-bump-semver@v1
         id: bump-semver
         with:
           current_version: ${{ steps.get-latest-tag.outputs.tag }}
-          level: "${{ steps.level_status.outputs.level }}"
+          level: "${{ needs.check_pr.level_status.outputs.level }}"
 
-      - uses: actions-ecosystem/action-push-tag@v1
+      - name: "Get New Version"
+        uses: actions-ecosystem/action-push-tag@v1
         with:
           tag: ${{ steps.bump-semver.outputs.new_version }}
-          message: '${{ steps.bump-semver.outputs.new_version }}: Minor Version'
+          message: '${{ steps.bump-semver.outputs.new_version }}: New Version'
 
       - name: "Build Changelog"
-        if: ${{ steps.level_status.outputs.level != 'patch' }}
-        id: github_release
+        id: build_changelog
         uses: mikepenz/release-changelog-builder-action@main
         with:
-          configuration: "configuration-release.json"
+          configuration: ".github/workflows/configuration-release.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Html Content
-        if: ${{ steps.level_status.outputs.level != 'patch' }}
-        id: html_content
-        uses: vmgabriel/gha-content-html@0.2.3
-        with:
-          template: ".github/workflows/template.html"
-          body: ${{steps.github_release.outputs.changelog}}
-
-      - name: Create Release
-        if: ${{ steps.level_status.outputs.level != 'patch' }}
+      - name: "Create Release"
         uses: actions/create-release@v1
         with:
           tag_name: ${{ steps.bump-semver.outputs.new_version }}
           release_name: ${{ steps.bump-semver.outputs.new_version }}
-          body: ${{steps.html_content.outputs.markdown_data}}
+          body: ${{steps.build_changelog.outputs.changelog }}
           prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Send mail
-        if: ${{ steps.level_status.outputs.level != 'patch' }}
+      - name: "Send Mail"
         uses: dawidd6/action-send-mail@v2.3.0
         with:
           # Required mail server address:
           server_address: smtp.gmail.com
           server_port: 465
-          username: ${{secrets.MAIL_USERNAME}}
-          password: ${{secrets.MAIL_PASSWORD}}
-          subject: New Features Into Project ${{github.ref}}
-          to: vmgabriel96@gmail.com
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: New Features Into Project ${{ steps.build_changelog.outputs.repo }}
+          to: todos@fithub.com.co
           from: Team Develop
           secure: true
           content_type: text/html
           ignore_cert: true
-          body: ${{steps.html_content.outputs.html_data}}
+          body: ${{ steps.build_changelog.outputs.changelog }}
+          convert_markdown: true
