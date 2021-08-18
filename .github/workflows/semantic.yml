@@ -85,7 +85,7 @@ jobs:
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: New Features Into Project ${{ steps.build_changelog.outputs.repo }}
-          to: todos@fithub.com.co
+          to: vmgabriel96@gmail.com
           from: Team Develop
           secure: true
           content_type: text/html
