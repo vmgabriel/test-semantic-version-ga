@@ -9,7 +9,7 @@ const impotencia = "impotencia";
 const thisApp = "Sketch control module";
 
 const data = [1,2,3];
-data[0] = 4;
+data[0] = 42;
 
 const alternative = [1,2,3,4,5];
 let train = alternative.map((data) => data ** 4);
