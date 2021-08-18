@@ -32,7 +32,7 @@ jobs:
 
   release:
     name: "Release"
-    if: needs.check_pr.level_status.outputs.level != ''
+    if: needs.check_pr.outputs.level != ''
     needs: [check_pr]
     runs-on: ubuntu-latest
     steps:
