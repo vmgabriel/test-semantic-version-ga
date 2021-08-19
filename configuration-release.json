@@ -17,12 +17,12 @@
     "ignore"
   ],
   "sort": "ASC",
-  "template": "![Header](https://firebasestorage.googleapis.com/v0/b/tara-cloud.appspot.com/o/orgs%2Ffithub%2Ftasks%2F504%2FNotas%20de%20Lanzamiento-a631125b-d4b0-47d2-aa96-831b3c8b2d0e.png?alt=media&token=1199f2dd-a464-487f-a66f-1bebc130c583 'Header')\n\n# Project: ${{REPO}}\n------\n\n  ${{FROM_TAG}} -> ${{TO_TAG}}\n----\n## Changelog\n${{CHANGELOG}}\n\n----\n## Uncategorized\n${{UNCATEGORIZED}}",
+  "template": "![Header](https://firebasestorage.googleapis.com/v0/b/tara-cloud.appspot.com/o/orgs%2Ffithub%2Ftasks%2F504%2FNotas%20de%20Lanzamiento-a631125b-d4b0-47d2-aa96-831b3c8b2d0e.png?alt=media&token=1199f2dd-a464-487f-a66f-1bebc130c583 'Header')\n\nProject: ${{REPO}}\n------\n\n  ${{FROM_TAG}} -> ${{TO_TAG}}\n----\n## Changelog\n${{CHANGELOG}}\n\n----\n## Uncategorized\n${{UNCATEGORIZED}}",
   "pr_template": "#### Change: [${{TITLE}}](${{URL}} 'url of pr')\n##### Author: ${{AUTHOR}}\n${{BODY}}\n",
   "empty_template": "Not Changes",
   "transformers": [
     {
-      "pattern": "^.*Release Note Description:\\n(.*)$",
+      "pattern": "Release Note Description:\\n(.*)",
       "target": "$2"
     }
   ]
