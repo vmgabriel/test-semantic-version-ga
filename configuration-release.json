@@ -22,8 +22,8 @@
   "empty_template": "Not Changes",
   "transformers": [
     {
-      "pattern": "Release Note Description:\\n(.)*",
-      "target": "$1"
+      "pattern": "Release Note Description:\\n",
+      "target": "$'"
     }
   ]
 }
